@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar{
+    width: 7px;
+}
+
+::-webkit-scrollbar-track{
+    background: #000;
+    
+}
+::-webkit-scrollbar-thumb{
+    background:#1a9e5e;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background: white;
+}
+
+
+
+@layer components {
+
+  .sidebar-icons-container {
+    @apply fixed top-1/2 left-0 transform -translate-y-1/2 flex flex-col items-center justify-center h-screen w-20  z-50;
+  }
+  
+  
+    .sidebar-icon {
+      @apply relative flex items-center justify-center 
+      h-12 w-12 mt-2 mb-3  
+    bg-gray-300 hover:bg-green-700 dark:bg-[#0e161a] 
+    text-green-800 hover:text-white
+      hover:rounded-xl rounded-3xl
+      transition-all duration-300 ease-linear
+      cursor-pointer shadow-lg  ;
+    }
+  
+    .sidebar-tooltip {
+      @apply absolute w-auto p-2 m-2 min-w-max left-14 rounded-md shadow-md
+      text-green-900 dark:text-white dark:bg-[#0e161a]  bg-white
+      text-xs md:text-sm font-bold 
+      transition-all duration-100 scale-0 origin-left;
+    }
+  
+    .sidebar-hr {
+      @apply block w-full border-t-2 border-gray-400 dark:border-[#0e161a] my-1;
+    }
+
+   
+      
+    
+}
