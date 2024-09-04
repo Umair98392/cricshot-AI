@@ -23,6 +23,7 @@ app = FastAPI(redoc_url=None)
 
 # Configure CORS settings
 origins = [
+    "http://localhost:5173",
     "https://cricshot-ai.netlify.app"
     # Adjust this to match your frontend's URL
 ]
