@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "../auth";
 
 
-const apiUrl = process.env.Backend_Secret_Api_Url;
+const apiUrl = import.meta.env.VITE_Backend_Secret_Api_Url;
 
 
 export const BASE_URL = apiUrl;
