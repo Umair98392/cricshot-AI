@@ -79,3 +79,4 @@ def prediction_on_image(img, i_model , loaded_scaler, shot_labels = shot_labels)
     res_img_3 = base64.b64encode(open(f'{output_directory}/img_with_predictions.jpg', "rb").read()).decode("utf-8")
     
     return predicted_shot, confidence, res_img_1, res_img_2, res_img_3
+
