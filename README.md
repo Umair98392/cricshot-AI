@@ -1,6 +1,6 @@
 # Cricket PoseNet : AI Shot Assistant
 
-[![Image](FRONTEND/src/assets/pics/demo1.png)](https://cricshot-ai.netlify.app)
+[![Image](Frontend/src/assets/pics/demo1.png)](https://cricshot-ai.netlify.app)
 
 Click on This to See the site - https://cricshot-ai.netlify.app
 
