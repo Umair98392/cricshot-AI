@@ -57,7 +57,7 @@ async def create_user(request:SignIn):
     # Check if user already exists
     existing_user = user_collection.find_one({"email": request.email})
     if existing_user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="A user with this email already exists")
+        raise HTTPException(status_code=288, detail="A user with this email already exists")
     
     hashed_pass = Hash.bcrypt(request.password)
     user_object = dict(request)
@@ -65,7 +65,7 @@ async def create_user(request:SignIn):
 
     user_id = user_collection.insert_one(user_object)
     if not user_id.inserted_id:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="User creation failed")
+        raise HTTPException(status_code=288, detail="User creation failed")
     
     return {"detail": "User created successfully", "user_id": str(user_id.inserted_id)}
     
@@ -74,10 +74,10 @@ async def create_user(request:SignIn):
 async def login(request: OAuth2PasswordRequestForm = Depends()):
 	user = user_collection.find_one({"email": request.username})
 	if not user:
-		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail = f'No user found with this {request.username} email')
+		raise HTTPException(status_code=288,detail = f'No user found with this {request.username} email')
     
 	if not Hash.verify(user["password"],request.password):
-		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail = f'Wrong password')
+		raise HTTPException(status_code=288,detail = f'Wrong password')
     
 	access_token = create_access_token(data={"sub": user["email"]})
 	return {"access_token": access_token, "token_type": "bearer", "user" : {"id": str(user["_id"]), "name": user["name"], "email": user["email"]}}
@@ -148,7 +148,7 @@ async def save_image_data(imageData: imageData, current_user = Depends(get_curre
         return {"message": "Data saved successfully", "id": str(result.inserted_id)}
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
     
 
 @app.post("/save-video-data")
@@ -164,7 +164,7 @@ async def save_video_data(videoData: videoData, current_user = Depends(get_curre
         return {"message": "Data saved successfully", "id": str(result.inserted_id)}
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
 
 
 @app.get("/videos/totalEntries/{userId}")
@@ -173,7 +173,7 @@ async def totalEntries(userId : str, current_user: ActiveUser = Depends(get_curr
         count = video_collection.count_documents({ "UserId": userId })
         return count
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
     
 
 @app.get("/videos/totalPull/{userId}")
@@ -186,7 +186,7 @@ async def totalPull(userId : str, current_user: ActiveUser = Depends(get_current
         for document in result:
             return document["totalPullshot"]
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
 
 
 @app.get("/videos/totalReverseSweep/{userId}")
@@ -200,7 +200,7 @@ async def totalReverseSweep(userId : str, current_user: ActiveUser = Depends(get
         for document in result:
             return document["totalReverseSweep"]
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
 
 
 @app.get("/videos/totalDefence/{userId}")
@@ -214,7 +214,7 @@ async def totalDefence(userId : str, current_user: ActiveUser = Depends(get_curr
         for document in result:
             return document["totalDefence"]
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
 
 
 @app.get("/videos/totalCoverDrive/{userId}")
@@ -228,7 +228,7 @@ async def totalCoverDrive(userId : str, current_user: ActiveUser = Depends(get_c
         for document in result:
             return document["totalCoverDrive"]
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
 
 
 @app.get("/videos/totalBowled/{userId}")
@@ -242,7 +242,7 @@ async def totalBowled(userId : str, current_user: ActiveUser = Depends(get_curre
         for document in result:
             return document["totalBowled"]
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
 
 
 @app.get("/videos/currentmatchentry/{userId}")
@@ -253,7 +253,7 @@ async def currentmatchentry(userId : str, current_user: ActiveUser = Depends(get
             for document in result:
                 return document
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
 
 
 @app.get("/videos/secondlastentry/{userId}")
@@ -265,7 +265,7 @@ async def secondlastentry(userId : str, current_user: ActiveUser = Depends(get_c
                 
                 return document
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
     
 
 @app.get("/videos/latest4Videos/{userId}")
@@ -278,7 +278,7 @@ async def secondlastentry(userId : str, current_user: ActiveUser = Depends(get_c
                 res.append(document)
             return res
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
 
 
 @app.get("/images/latest4Images/{userId}")
@@ -291,19 +291,17 @@ async def latest4Images(userId : str, current_user: ActiveUser = Depends(get_cur
                 res.append(document)
             return res
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=288, detail=str(e))
 
 
 @app.post("/change-password/{userId}")
 async def change_password(request: ChangePassword, current_user: ActiveUser = Depends(get_current_user)):
     user = user_collection.find_one({"_id":ObjectId(request.userId)})
-    if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail = f'No user found with this {request.userId} userId')
     
     if not Hash.verify(user["password"],request.currentPassword):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail = f'Wrong password')
+        raise HTTPException(status_code=288,detail = f'Wrong password')
     if len(request.newPassword) < 6:
-        raise HTTPException(status_code=400, detail="New password is too short")
+        raise HTTPException(status_code=289, detail="New password is too short")
 
     # Update the password in the database
     new_hashed_password = Hash.bcrypt(request.newPassword)
@@ -319,7 +317,10 @@ async def subscribe(subscription: SubscriptionRequest):
     email = subscription.email
     user = subscribe_collection.find_one({"email": email})
     if user:
-        raise HTTPException(status_code=400, detail="Email already subscribed")
+        raise HTTPException(status_code=288, detail="Email already subscribed")
 
     subscribe_collection.insert_one({"email": email})
     return {"detail": "Subscribed successfully"}
+
+
+# 288 == means error for this app

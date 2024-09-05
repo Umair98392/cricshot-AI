@@ -53,6 +53,7 @@ const SignUp = ({ handleSignUp, handleSignIn }) => {
 
     signUp(data)
       .then((resp) => {
+        if (resp.status>=200 && resp.status < 270){
         toast.success("User is Registered Successfully");
         setData({
           name: '',
@@ -61,11 +62,14 @@ const SignUp = ({ handleSignUp, handleSignIn }) => {
         });
         setShowTermsModal(false);
         handleSignIn(); // Switch to sign-in mode after successful registration
+        }else if(resp.status=288){
+        toast.error("Email is already Registered.Please Log in");
+        }
       })
       .catch((error) => {
         console.log(error);
         console.log("Error log");
-        toast.error("Email is already Registered.Please Log in");
+        // toast.error("Email is already Registered.Please Log in");
         setError({
           errors: error,
           isError: true

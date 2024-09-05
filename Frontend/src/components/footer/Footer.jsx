@@ -22,11 +22,16 @@ function Footer() {
        
         const response = await privateAxios.post(`/subscribe`, {email});
   
-        if (response.status >= 200 && response.status < 300) {
+        if (response.status >= 200 && response.status < 270) {
           toast.success('Thanks for subscribing!');
         }
+        else if (response.status==288){
+        toast.error("You have already subscribed");
+
+        }
       } catch (error) {
-        toast.error(error.response.data.detail);
+        console.log(error)
+        // toast.error(error.response.data.detail);
       }
     } else {
       // Email is not in the correct format

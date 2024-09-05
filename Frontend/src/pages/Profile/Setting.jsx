@@ -76,9 +76,13 @@ function ChangePasswordForm({ user }) {
       }
       const response = await privateAxios.post('/change-password/${user.id}', data);
 
-      if (response.status !== 200) {
+      if (response.status == 288) {
         toast.error("Incorrect Current Password!!!");
-      } else {
+      } else if (response.status==289){
+        toast.success('New password is too short');
+
+      }
+      else{   
         toast.success('Password changed successfully');
         setCurrentPassword('');
         setNewPassword('');

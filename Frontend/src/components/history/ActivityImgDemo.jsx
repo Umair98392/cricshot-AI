@@ -13,7 +13,7 @@ const ActivityImgDemo = () => {
         id: 1,
         date: "23-08-2024 06:25:00 PM",
         confidence: '95%',
-        shotType: 'Pull Shot',
+        shotType: 'Pull',
         predictedImages: [
           { url: Img1 },
           { url: Img2 },
@@ -25,7 +25,7 @@ const ActivityImgDemo = () => {
         id: 2,
         date:"15-08-2024 12:45:00 PM",
         confidence: '95%',
-        shotType: 'Pull Shot',
+        shotType: 'Pull',
         predictedImages: [
           { url: Img1 },
           { url: Img2 },

@@ -3,7 +3,7 @@ import {myAxios} from "./helper";
 
 export const signUp=(user)=>{
     return myAxios.post('/register',user)
-    .then((response)=>response.data)
+    .then((response)=>response)
 
 };
 
@@ -13,6 +13,6 @@ export const loginUser=(loginDetail)=>{
       'Content-Type': 'application/x-www-form-urlencoded',
     },
   })
-   .then((response)=>response.data)
+   .then((response)=>response)
    
 }

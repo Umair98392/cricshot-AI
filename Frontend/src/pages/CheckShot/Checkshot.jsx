@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -21,17 +22,20 @@ function Checkshot() {
   const [isDragging, setIsDragging] = useState(false);
   const [imageVisible, setImageVisible] = useState(false); // State to control image visibility
   const [modalVisible, setModalVisible] = useState(false); // State to control the modal
+  const navigate = useNavigate();
   const[user,setUser]=useState(undefined)
 
   //Backend start
   useEffect(() => {
       async function fun() {
         const currentUserDetail = await getCurrentUserDetail();
+        if(!currentUserDetail)
+          navigate('/Signinup')
         if (currentUserDetail != undefined)
           setUser(currentUserDetail)
         }
         fun();
-    }, [])
+    }, [navigate])
 
   //Backend end
 
@@ -157,13 +161,13 @@ function Checkshot() {
     } else if (PredictedShot === 'Legglance-Flick') {
       description = 'When a ball is flicked towards the leg side with the straight bat and some wrist work. ';
       link = '/Shotcontent/Legglance';
-    } else if (PredictedShot === 'Pullshot') {
+    } else if (PredictedShot === 'Pull') {
       description = 'Stunning back foot shots played on the leg side on short-pitched deliveries. ';
       link = '/Shotcontent/Pull';
     } else if (PredictedShot === 'Sweep') {
       description = 'The sweep shots are cross-batted shots played on the front foot, usually by kneeling on one knee.';
       link = '/Shotcontent/Sweep';
-    }else if (PredictedShot === 'Cut-Shot') {
+    }else if (PredictedShot === 'Cut') {
       description = 'Cuts shots are basically cross-batted shots played at a short delivery.';
       link = '/Shotcontent/Cut';}
      else {

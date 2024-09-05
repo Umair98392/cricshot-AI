@@ -42,19 +42,23 @@ const Signin = () => {
     }
 
     //submit the data to server to generate token
-  loginUser(loginDetail).then((data)=>{
+  loginUser(loginDetail).then((response)=>{
+    if(response.status==288){
+    toast.error("Invalid Credentials!!!")
+
+    }else{
 
     //save the data local storage
-      doLogin(data,()=>{
+      doLogin(response.data,()=>{
       //redirect to user dashboard page
          navigate("/");
          window.location.reload();
       })
-
+    }
    // toast.success("Login Successfully")
   }).catch(error=>{
     console.log(error)
-    toast.error("Invalid Credentials!!!")
+    // toast.error("Invalid Credentials!!!")
   })
   
   }

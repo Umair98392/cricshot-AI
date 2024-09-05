@@ -9,7 +9,7 @@ output_directory = './output_directory'
 os.makedirs(output_directory, exist_ok=True)
     
     
-shot_labels = ['Cut-Shot', 'Drive', 'Legglance-Flick', 'Pullshot', 'Sweep']
+shot_labels = ['Cut', 'Drive', 'Legglance-Flick', 'Pull', 'Sweep']
 
 # Load a pretrained model
 keypoint_model = YOLO('./models/trained_model/yolov8n-pose.pt')

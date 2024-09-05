@@ -11,12 +11,13 @@ os.makedirs(output_directory, exist_ok=True)
 
 # Lables for prediction
 labels = ['bowled', 'cover_drive', 'defence', 'pull', 'reverse_sweep']
+actual_labels = ['Bowled', 'Cover Drive', 'Defence', 'Pull', 'Reverse Sweep']
 
 
 # Prediction Function
 def prediction_on_video(v_model, path, step_size=3, interval=5, n_frames=18, labels = labels):
 
-    records, confidence, records_pred_class, records_pred = [], [], [], []
+    records, confidence, records_pred_class, records_pred, records_seq = [], [], [], [], []
     pred_probs = [[0, 0, 0, 0, 0]]
     pred_shot = ""
 
@@ -52,7 +53,7 @@ def prediction_on_video(v_model, path, step_size=3, interval=5, n_frames=18, lab
 
             frame_counter += 1
 
-            out_frame = prob_viz(pred_probs, labels, out_frame)
+            out_frame = prob_viz(pred_probs, actual_labels, out_frame)
             cv2.rectangle(out_frame, (0, 0), (840, 30), (245, 117, 16), -1)
             cv2.putText(out_frame, ' '.join(records_pred[-4:]), (3, 25),
                         cv2.FONT_HERSHEY_TRIPLEX, 0.8, (255, 255, 255), 1, cv2.LINE_AA)
@@ -69,6 +70,7 @@ def prediction_on_video(v_model, path, step_size=3, interval=5, n_frames=18, lab
         records_pred_class.append(pred_class[0])
         pred_shot = labels[pred_class[0]]
         records_pred.append(pred_shot)
+        records_seq.append(actual_labels[pred_class[0]])
         conf = float(np.max(pred_probs[0]))*100
         confidence.append(conf)
 
@@ -104,7 +106,9 @@ def prediction_on_video(v_model, path, step_size=3, interval=5, n_frames=18, lab
     
      
     json['shots_played'] = len(records_pred)
-    json['shot_sequence'] = records_pred
+    # json['shot_sequence'] = records_pred
+    json['shot_sequence'] = records_seq
+
     
     # Count the number of each shot
     for i,shot in enumerate(records_pred):
@@ -123,8 +127,8 @@ def prediction_on_video(v_model, path, step_size=3, interval=5, n_frames=18, lab
     json['pull_shot_runs'] = round((json['pull_count']/count)*100,2)
     json['reverse_sweep_shot_runs'] = round((json['reverse_sweep_count']/count)*100,2)
 
-    json['better_shot'] = labels[np.argmax([0, json["cover_drive_avg_prob"], json["defence_avg_prob"], json["pull_avg_prob"], json["reverse_sweep_avg_prob"]])]
-    json['weak_shot'] = labels[np.argmin([100-json["bowled_avg_prob"], json["cover_drive_avg_prob"], json["defence_avg_prob"], json["pull_avg_prob"], json["reverse_sweep_avg_prob"]])]
+    json['better_shot'] = actual_labels[np.argmax([0, json["cover_drive_avg_prob"], json["defence_avg_prob"], json["pull_avg_prob"], json["reverse_sweep_avg_prob"]])]
+    json['weak_shot'] = actual_labels[np.argmin([100-json["bowled_avg_prob"], json["cover_drive_avg_prob"], json["defence_avg_prob"], json["pull_avg_prob"], json["reverse_sweep_avg_prob"]])]
     
     
     
@@ -144,11 +148,11 @@ def prediction_on_video(v_model, path, step_size=3, interval=5, n_frames=18, lab
 colors = [(245,117,16), (117,245,16), (16,117,245),(200,103,27),(117,245,16)]
 
 # Function to visualize probabilities on the frame
-def prob_viz(pred_probs, labels, frame, colors=colors):
+def prob_viz(pred_probs, actual_labels, frame, colors=colors):
     output_frame = frame.copy()
     for num, prob in enumerate(pred_probs[0]):
         cv2.rectangle(output_frame, (0,60+num*30), (int(prob*100), 90+num*30), colors[num], -1)
-        cv2.putText(output_frame, labels[num], (0, 85+num*30), 
+        cv2.putText(output_frame, actual_labels[num], (0, 85+num*30), 
                     cv2.FONT_HERSHEY_COMPLEX_SMALL    , 0.8, (255,255,255), 1, cv2.LINE_AA)
         
     return output_frame

@@ -29,11 +29,13 @@ function CheckshotVid() {
  useEffect(() => {
   async function fun() {
     const currentUserDetail = await getCurrentUserDetail();
+    if(!currentUserDetail)
+      navigate('/Signinup')
     if (currentUserDetail != undefined)
       setUser(currentUserDetail)
     }
     fun();
-}, [])
+}, [navigate])
 
 //Backend end
 

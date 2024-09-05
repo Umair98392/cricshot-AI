@@ -109,17 +109,16 @@ function Profile() {
 
             // Generate observation text based on extracted information
             let observationText = `
-              Based on the analysis of shots played in the current match: \n
-              * Number of shots played: ${shots_played}
-              * Better shot: ${better_shot} shot
-              * You need to pay attention to ${weak_shot} shot.
-            `;
-
-            // Include each shot in shot_sequence on a separate line
-            if (shot_sequence && shot_sequence.length > 0) {
-              observationText += '\n \t     * Shot sequence:';
-              shot_sequence.forEach((shot, index) => {
-                observationText += `\n   \t\t     ${index + 1}. ${shot}`;
+    Based on the analysis of shots played in the current match: \n
+      - Number of shots played: ${shots_played}
+      - Better shot: ${better_shot} shot
+      - You need to pay attention to ${weak_shot} shot.
+    `;
+    
+    if (shot_sequence && shot_sequence.length > 0) {
+      observationText += '\n\t  Shot sequence:';
+      shot_sequence.forEach((shot, index) => {
+        observationText += `\n   \t\t     ${index + 1}. ${shot}`;
               });
             }
 
@@ -214,7 +213,7 @@ function Profile() {
                   </li>
                   <li className="p-4 bg-green-200 rounded-md font-semibold text-center">
                     <h2 className="text-lg font-semibold">Result</h2>
-                    <p className="text-sm">You played {betterShot} shot well.</p>
+                    <p className="text-sm">You have better accuracy in {betterShot} shot .</p>
                   </li>
                 </ul>
               </div>
