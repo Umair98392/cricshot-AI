@@ -82,7 +82,7 @@ const Signin = () => {
           <div className="input-field flex items-center mb-6">
             <FontAwesomeIcon icon={faUser} className='form-icon mr-2 text-gray-600 dark:text-gray-400' />
             <input type="text"
-             placeholder="Username"
+             placeholder="Email"
               required className="border border-gray-400 dark:border-gray-600 rounded-md py-2 px-3 focus:outline-none focus:border-green-500 dark:bg-gray-200 dark:text-gray-900"
               //springboot starts
               value={loginDetail.username}
