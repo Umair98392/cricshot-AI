@@ -15,7 +15,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 # to get a string like this run: openssl rand -hex 32
 SECRET_KEY = os.getenv('JWT_Secret_Key')
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+ACCESS_TOKEN_EXPIRE_MINUTES = 1200
 
 pwd_cxt = CryptContext(schemes =["bcrypt"],deprecated="auto")
 
